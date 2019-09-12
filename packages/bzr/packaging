@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -o errexit -o xtrace
+
+wget -O bzr.tgz "https://launchpad.net/bzr/2.7/2.7.0/+download/bzr-2.7.0.tar.gz"
+tar xf bzr.tgz --strip-components=1
+
+source /var/vcap/packages/python-2.7/bosh/compile.env
+python2 setup.py install --prefix "${BOSH_INSTALL_TARGET}"

@@ -1,0 +1,12 @@
+---
+name: acceptance-tests
+
+dependencies:
+- bzr
+- golang-1-linux
+- git
+- python-2.7
+
+files:
+- github.com/cloudfoundry/cf-acceptance-tests/**
+
