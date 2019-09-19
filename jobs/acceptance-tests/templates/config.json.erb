@@ -7,8 +7,6 @@ config[:keep_user_at_suite_end] = !properties.acceptance_tests.existing_user.nil
 config[:use_existing_organization] = !properties.acceptance_tests.existing_organization.nil?
 config[:artifacts_directory] ||= '/var/vcap/sys/log/acceptance_tests/'
 
-# TODO: do something with p('acceptance_tests.include')
-
 if_p('acceptance_tests.include') do |includes|
     action = :error
     includes_config = Hash.new
