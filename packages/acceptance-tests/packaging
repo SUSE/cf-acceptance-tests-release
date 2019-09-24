@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+source /var/vcap/packages/golang-1-linux/bosh/runtime.env
+source /var/vcap/packages/python-2.7/bosh/compile.env
+
+set -o xtrace
+find /var/vcap/packages/bzr
+export PATH="${PATH}:/var/vcap/packages/git/bin"
+export PATH="${PATH}:/var/vcap/packages/bzr/bin"
+export PYTHONPATH="${PYTHONPATH}:/var/vcap/packages/bzr/lib/python2.7/site-packages"
+
+cd "${BOSH_COMPILE_TARGET}/github.com/cloudfoundry/cf-acceptance-tests/vendor/github.com/onsi/ginkgo/ginkgo"
+go mod vendor -v
+
+cp -rv "${BOSH_COMPILE_TARGET}" "${BOSH_INSTALL_TARGET}/src"

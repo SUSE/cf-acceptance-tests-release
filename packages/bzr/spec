@@ -1,0 +1,7 @@
+---
+name: bzr
+
+dependencies:
+- python-2.7
+
+files: []

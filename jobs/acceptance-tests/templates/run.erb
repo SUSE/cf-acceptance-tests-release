@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+<% if p("bpm.enabled") %>
+exec /var/vcap/jobs/bpm/bin/bpm run acceptance-tests
+<% else %>
+exec /var/vcap/jobs/acceptance-tests/bin/test
+<% end %>

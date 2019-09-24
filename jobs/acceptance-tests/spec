@@ -1,0 +1,244 @@
+---
+name: acceptance-tests
+
+description: >-
+  The acceptance tests errand can be configured to run full acceptance test
+  suite against a specific Cloud Foundry API endpoint. Consider running smoke
+  tests errand for a smaller set of tests.
+
+templates:
+  run.erb: bin/run
+  test.erb: bin/test
+  config.json.erb: config/config.json
+  bpm.yml.erb: config/bpm.yml
+
+packages:
+- acceptance-tests
+- git
+- golang-1-linux
+- cf-cli-6-linux
+
+# Note that we comment out the default values, so that the CATS-internal
+# defaults will get applied instead.
+properties:
+  acceptance_tests.api:
+    description: Cloud Controller API endpoint.
+
+  acceptance_tests.admin_user:
+    description: >-
+      Name of a user in your CF instance with admin credentials.
+      This admin user must have the `doppler.firehose` scope.
+
+  acceptance_tests.admin_password:
+    description: Password of the admin user.
+
+  acceptance_tests.apps_domain:
+    description: >-
+      A shared domain that tests can use to create subdomains that will route
+      to applications also created in the tests.
+
+  acceptance_tests.skip_ssl_validation:
+    description: >-
+      Set to true if using an invalid (e.g. self-signed) cert for traffic routed
+      to your CF instance; this is generally always true for BOSH-Lite
+      deployments of CF.
+    #default: false
+
+  acceptance_tests.include:
+    description: >-
+      The set of test groups to include.  Comma-separated lists of tests groups,
+      prefixed by '+' to add to the currently enabled tests, or '-' to remove
+      from the set.  A '=' prefix disables all enabled groups, and enables only
+      the listed groups.
+    example: +docker,-ssh,apps
+    default: ""
+
+  acceptance_tests.credhub_mode:
+    description: Valid values are assisted or non-assisted.
+    example: assisted
+
+  acceptance_tests.credhub_location:
+    description: Location of CredHub instance
+    #default: https://credhub.service.cf.internal:8844
+
+  acceptance_tests.credhub_client:
+    description: >-
+      UAA client credential for Service Broker write access to CredHub
+      (required for CredHub tests).
+    #default: credhub_admin_client
+
+  acceptance_tests.credhub_secret:
+    description: >-
+      UAA client secret for Service Broker write access to CredHub
+      (required for CredHub tests).
+
+  acceptance_tests.use_http:
+    description: >-
+      Set to true if you would like CF Acceptance Tests to use HTTP when making
+      api and application requests.
+    #default: false
+
+  acceptance_tests.use_log_cache:
+    description: >-
+      Set to false if you don't want CF Acceptance Tests to use Log Cache for
+      reading application logs.
+    #default: true
+
+  acceptance_tests.existing_organization:
+    description: Name of the existing organization to use.
+
+  acceptance_tests.existing_user:
+    description: Name of the existing user to use.
+
+  acceptance_tests.existing_user_password:
+    description: Password for the existing user to use.
+
+  acceptance_tests.default_timeout:
+    description: >-
+      Default time (in seconds) to wait for polling assertions that wait for
+      asynchronous results.
+
+  acceptance_tests.cf_push_timeout:
+    description: >-
+      Default time (in seconds) to wait for cf push commands to succeed.
+
+  acceptance_tests.long_curl_timeout:
+    description: >-
+      Default time (in seconds) to wait for assertions that curl slow endpoints
+      of test applications.
+
+  acceptance_tests.broker_start_timeout:
+    description: >-
+      (only relevant for services test group): Time (in seconds) to wait for
+      service broker test app to start.
+
+  acceptance_tests.async_service_operation_timeout:
+    description: >-
+      (only relevant for the services test group): Time (in seconds) to wait for
+      an asynchronous service operation to complete.
+
+  acceptance_tests.test_password:
+    description: >-
+      Used to set the password for the test user. This may be needed if your CF
+      installation has password policies.
+
+  acceptance_tests.timeout_scale:
+    description: >-
+      Used primarily to scale default timeouts for test setup and teardown
+      actions (e.g. creating an org) as opposed to main test actions (e.g.
+      pushing an app).
+
+  acceptance_tests.isolation_segment_name:
+    description: >-
+      Name of the isolation segment to use for the isolation segments test.
+
+  acceptance_tests.isolation_segment_domain:
+    description: >-
+      Domain that will route to the isolated router in the isolation segments
+      and routing isolation segments tests.
+
+  acceptance_tests.private_docker_registry_image:
+    description: >-
+      Name of the private docker image to use when testing private docker
+      registries.
+
+  acceptance_tests.private_docker_registry_username:
+    description: Username to access the private docker repository.
+
+  acceptance_tests.private_docker_registry_password:
+    description: Password to access the private docker repository.
+
+  acceptance_tests.unallocated_ip_for_security_group:
+    description: An unused IP address in the private network used by CF.
+    #default: 10.0.244.255
+
+  acceptance_tests.require_proxied_app_traffic:
+    description: >-
+      Set this to true if Diego was configured to require proxied port mappings,
+      i.e. if containers.proxy.enable_unproxied_port_mappings is set to false.
+      Note that this also requires using the cf-syslog-skip-cert-verify.
+
+  acceptance_tests.staticfile_buildpack_name:
+    description: An override for tests using the staticfile buildpack.
+    #default: staticfile_buildpack
+  acceptance_tests.java_buildpack_name:
+    description: An override for tests using the java buildpack.
+    #default: java_buildpack
+  acceptance_tests.ruby_buildpack_name:
+    description: An override for tests using the ruby buildpack.
+    #default: ruby_buildpack
+  acceptance_tests.nodejs_buildpack_name:
+    description: An override for tests using the nodejs buildpack.
+    #default: nodejs_buildpack
+  acceptance_tests.go_buildpack_name:
+    description: An override for tests using the go buildpack.
+    #default: go_buildpack
+  acceptance_tests.python_buildpack_name:
+    description: An override for tests using the python buildpack.
+    #default: python_buildpack
+  acceptance_tests.php_buildpack_name:
+    description: An override for tests using the php buildpack.
+    #default: php_buildpack
+  acceptance_tests.binary_buildpack_name:
+    description: An override for tests using the binary buildpack.
+    #default: binary_buildpack
+  acceptance_tests.hwc_buildpack_name:
+    description: An override for tests using the hwc buildpack.
+    #default: hwc_buildpack
+
+  acceptance_tests.use_windows_test_task:
+    description: Flag to include the tasks tests on Windows cells.
+    #default: false
+
+  acceptance_tests.use_windows_context_path:
+    description: Flag to include the Windows context path routing tests.
+    #default: false
+
+  acceptance_tests.windows_stack:
+    description: >-
+      Windows stack to run tests against. Must be either windows2012R2,
+      windows2016, or windows.
+    # default: windows2012R2
+
+  acceptance_tests.stacks:
+    description: >-
+      An array of stacks to test against. Currently only cflinuxfs3 stack is
+      supported.
+    #default: [cflinuxfs3]
+
+  acceptance_tests.volume_service_name:
+    description: >-
+       The name of the volume service provided by the volume service broker.
+
+  acceptance_tests.volume_service_plan_name:
+    description: >-
+       The name of the plan of the service provided by the volume service broker.
+
+  acceptance_tests.volume_service_create_config:
+    description: >-
+       The JSON configuration that is used when volume service is created.
+
+  acceptance_tests.volume_service_bind_config:
+    description: >-
+       The JSON configuration that is used when volume service is bound to the
+       test application.
+
+  acceptance_tests.volume_service_name:
+    description: >-
+       The name of the volume service provided by the volume service broker.
+
+  acceptance_tests.volume_service_plan_name:
+    description: >-
+       The name of the plan of the service provided by the volume service broker.
+
+  acceptance_tests.volume_service_create_config:
+    description: >-
+       The JSON configuration that is used when volume service is created.
+
+  acceptance_tests.volume_service_bind_config:
+    description: >-
+       The JSON configuration that is used when volume service is bound to the
+       test application.
+
+  bpm.enabled:
+    default: true

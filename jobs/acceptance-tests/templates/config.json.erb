@@ -1,0 +1,46 @@
+<%
+require 'json'
+
+config = p('acceptance_tests')
+config[:use_existing_user] = !properties.acceptance_tests.existing_user.nil?
+config[:keep_user_at_suite_end] = !properties.acceptance_tests.existing_user.nil?
+config[:use_existing_organization] = !properties.acceptance_tests.existing_organization.nil?
+config[:artifacts_directory] ||= '/var/vcap/sys/log/acceptance_tests/'
+
+if_p('acceptance_tests.include') do |includes|
+    action = :error
+    includes_config = Hash.new
+    has_errors = false
+    until includes.nil? || includes.empty? do
+        # If the first character is an action, deal with it.
+        prefix = includes.chr
+        includes_config.clear if prefix == '='
+        new_action = case prefix
+            when '+', '=' then :add
+            when '-'      then :remove
+        end
+        unless new_action.nil?
+            action = new_action
+            includes = includes[1..-1] # strip the action prefix
+        end
+
+        group, includes = includes.split(',', 2)
+        next if group.empty?
+        case action
+        when :add then    includes_config[:"include_#{group}"] = true
+        when :remove then includes_config[:"include_#{group}"] = false
+        else
+            fail "Unknown action #{action} near group #{group} (remaining: #{includes})"
+        end
+    end
+    fail 'Failed to generate configuration' if has_errors
+
+    config.merge! includes_config
+end
+
+# unset null keys
+config.compact!
+
+%>
+
+<%= JSON.pretty_generate(config) %>

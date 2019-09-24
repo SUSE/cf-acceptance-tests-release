@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+
+source /var/vcap/packages/golang-1-linux/bosh/runtime.env
+
+set -o errexit
+PATH="${PATH}:/var/vcap/packages/git/bin"
+PATH="${PATH}:$(echo /var/vcap/packages/cf-cli*-linux/bin)"
+export PATH
+
+if [[ -r /usr/local/rvm/scripts/rvm ]] ; then
+    source /usr/local/rvm/scripts/rvm
+fi
+
+export CONFIG=/var/vcap/jobs/acceptance-tests/config/config.json
+if [ -n "$(type -t ruby)" ] ; then
+    # If we have ruby available, we can do a better job of dealing with the
+    # test groups
+    ruby <<"EOF"
+    SRC_DIR = '/var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry/cf-acceptance-tests'
+    GOSRC = "#{SRC_DIR}/helpers/config/config_struct.go"
+
+    unless File.exists? GOSRC
+        puts "#{GOSRC} not found, skipping complete test group checks"
+        exit 0
+    end
+
+    require 'json'
+
+    full_config = File.open(ENV['CONFIG'], 'r') { |f| JSON.load(f) }
+    all_groups = Hash.new
+
+    File.open(GOSRC, 'r') do |src_file|
+        in_config_struct = false
+        src_file.each_line do |line|
+            in_config_struct = true if line.strip == 'type config struct {'
+            next unless in_config_struct
+            break if line.strip == '}' # End of config struct
+            match = /^\s*(?<varname>Include\w+)\s+\*bool\s+`json:"(?<key>.*?)"`/.match(line.chomp)
+            next unless match
+            all_groups[match[:key].sub(/^include_/, '')] = match.named_captures
+        end
+
+        in_defaults_func = false
+        src_file.each_line do |line|
+            in_defaults_func = true if line.strip == 'func getDefaults() config {'
+            next unless in_defaults_func
+            break if line.strip == '}' # End of func getDefaults()
+            match = /defaults\.(?<varname>Include\w+) = ptrToBool\((?<default>\w+)\)/.match(line)
+            next unless match
+            group_info = all_groups.values.find { |group| group['varname'] == match[:varname] }
+            if group_info.nil?
+                puts "Could not find #{match[:varname].inspect}"
+            else
+                group_info['default'] = (match[:default] == 'true')
+            end
+        end
+    end
+
+    configs = Hash[ all_groups.map { |k, v| [k, v['default'] ] }]
+    includes = full_config['include']
+
+    action = :error
+    has_errors = false
+    # If we have includes, but it does _not_ start with an action character,
+    # assume we mean '='
+    unless includes.nil? || includes.empty? || %w(= + -).include?(includes.chr)
+        includes = "=#{includes}"
+    end
+    until includes.nil? || includes.empty? do
+        # If the first character is an action, deal with it.
+        prefix = includes.chr
+        configs.keys.each { |k| configs[k] = false } if prefix == '='
+        new_action = case prefix
+            when '+', '=' then :add
+            when '-'      then :remove
+        end
+        unless new_action.nil?
+            action = new_action
+            includes[0] = '' # strip the action prefix
+        end
+
+        group, includes = includes.split(',', 2)
+        next if group.empty?
+        group_info = all_groups[group]
+        if group_info.nil?
+            STDERR.puts "Invalid CATS group #{group}; known groups are:"
+            STDERR.puts all_groups.keys.sort.join(' ')
+            has_error = true
+            next
+        end
+        case action
+        when :add then    configs[group] = true
+        when :remove then configs[group] = false
+        else
+            fail "Unknown action #{action} near group #{group} (remaining: #{includes})"
+        end
+    end
+    fail 'Failed to generate configuration' if has_errors
+
+    configs.each do |group, value|
+        full_config[all_groups[group]['key']] = value
+    end
+
+    full_config.delete 'include'
+    full_config.compact! # remove null values
+    File.open(ENV['CONFIG'], 'w') { |f| f.write JSON.pretty_generate(full_config) }
+EOF
+else
+    echo "Ruby not available, using limited group checking"
+fi
+
+export GOFLAGS=-mod=vendor
+cd /var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry/cf-acceptance-tests || exit 1
+exec bin/test -v
