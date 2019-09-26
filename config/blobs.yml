@@ -1,1 +1,8 @@
---- {}
+bzr/bzr-2.7.0.tar.gz:
+  size: 11586410
+  object_id: c909e31d-5497-441b-43a1-8cd0401aef30
+  sha: sha256:0d451227b705a0dd21d8408353fe7e44d3a5069e6c4c26e5f146f1314b8fdab3
+git/git-2.21.0.tar.gz:
+  size: 8293180
+  object_id: f2b951ba-e7bd-4216-7e24-41c67d8e5934
+  sha: sha256:7a601275abcc6ff51cc79a6d402e83c90ae37d743b0b8d073aa009dd4b22d432
