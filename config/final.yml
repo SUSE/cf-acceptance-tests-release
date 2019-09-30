@@ -1,5 +1,6 @@
 name: cf-acceptance-tests
 blobstore:
-  provider: local
+  provider: s3
   options:
-    blobstore_path: /tmp/blobstore
+    bucket_name: cf-acceptance-tests-release-blobs
+    region: us-west-2

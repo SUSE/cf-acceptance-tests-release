@@ -4,4 +4,5 @@ name: bzr
 dependencies:
 - python-2.7
 
-files: []
+files:
+- bzr/bzr-2.7.0.tar.gz
