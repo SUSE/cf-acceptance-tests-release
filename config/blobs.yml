@@ -1,8 +1,28 @@
 bzr/bzr-2.7.0.tar.gz:
   size: 11586410
-  object_id: c909e31d-5497-441b-43a1-8cd0401aef30
+  object_id: bzr/bzr-2.7.0.tar.gz
   sha: sha256:0d451227b705a0dd21d8408353fe7e44d3a5069e6c4c26e5f146f1314b8fdab3
 git/git-2.21.0.tar.gz:
   size: 8293180
-  object_id: f2b951ba-e7bd-4216-7e24-41c67d8e5934
+  object_id: git/git-2.21.0.tar.gz
   sha: sha256:7a601275abcc6ff51cc79a6d402e83c90ae37d743b0b8d073aa009dd4b22d432
+cf-cli-6-linux/cf-cli_6.46.1_linux_x86-64.tgz:
+  size: 8025041
+  object_id: cf-cli-6-linux/cf-cli_6.46.1_linux_x86-64.tgz
+  sha: sha256:17a54a359d23b32b791fc7c32cc72af32cff3b515866eada03a1a8b984446722
+golang-1-linux/go1.12.9.linux-amd64.tar.gz:
+  size: 127961523
+  object_id: golang-1-linux/go1.12.9.linux-amd64.tar.gz
+  sha: sha256:ac2a6efcc1f5ec8bdc0db0a988bb1d301d64b6d61b7e8d9e42f662fbb75a2b9b
+python-2.7/pip-1.5.2.tar.gz:
+  size: 1079904
+  object_id: python-2.7/pip-1.5.2.tar.gz
+  sha: sha256:2a8a3e08e652d3a40edbb39264bf01f8ff3c32520a79113357cca1f30533f738
+python-2.7/Python-2.7.6.tgz:
+  size: 14725931
+  object_id: python-2.7/Python-2.7.6.tgz
+  sha: sha256:99c6860b70977befa1590029fae092ddb18db1d69ae67e8b9385b66ed104ba58
+python-2.7/setuptools-2.2.tar.gz:
+  size: 786831
+  object_id: python-2.7/setuptools-2.2.tar.gz
+  sha: sha256:6fb1f21dea64e323e7ad2531a6795eeb6f5e17a85189dee61a86baca60b18984
