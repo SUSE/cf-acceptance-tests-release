@@ -1,0 +1,50 @@
+name: cf-acceptance-tests
+version: 0.0.1
+commit_hash: 358fcd5
+uncommitted_changes: false
+jobs:
+- name: acceptance-tests
+  version: 40fefe8af35e30f9bb012443a344106bc04760bd4d78ca89f9628faf79e8d3a8
+  fingerprint: 40fefe8af35e30f9bb012443a344106bc04760bd4d78ca89f9628faf79e8d3a8
+  sha1: sha256:59e97efc3cd2ee50c7350ae262911929ddb5093df31eac36f02aeb49ccbabcc6
+  packages:
+  - acceptance-tests
+  - git
+  - golang-1-linux
+  - cf-cli-6-linux
+packages:
+- name: acceptance-tests
+  version: b7aa1435d27de3fe52ce9364f4bc02953aea8712cd2c83bb8c3726cf5d4f9ce2
+  fingerprint: b7aa1435d27de3fe52ce9364f4bc02953aea8712cd2c83bb8c3726cf5d4f9ce2
+  sha1: sha256:016a75523a99825061084668957bab0923526b3cdc9ea6ed7d26346de421c10f
+  dependencies:
+  - bzr
+  - golang-1-linux
+  - git
+  - python-2.7
+- name: bzr
+  version: 153f00aeda6a39fef671520b404fa70e74234bdd5504a0f1aaaf488828c40d5f
+  fingerprint: 153f00aeda6a39fef671520b404fa70e74234bdd5504a0f1aaaf488828c40d5f
+  sha1: sha256:573ffbe5e1aa79815e85ce0f6590ba44f15cd7d65b6d28535cccce94eb055993
+  dependencies:
+  - python-2.7
+- name: cf-cli-6-linux
+  version: ac89b097c0ee7c9990635e68fb40e7d9938b0ee1f30797f2dd453778c0db892d
+  fingerprint: ac89b097c0ee7c9990635e68fb40e7d9938b0ee1f30797f2dd453778c0db892d
+  sha1: sha256:995895f7c30a6493353ac0e0ffdfd6a91c5866e154ebafa8674db9c78d9fa199
+  dependencies: []
+- name: git
+  version: d9e9bdf44ecf6f707091c8c7cfd5857aca7be0ba2e13da8e989c80cce2921c50
+  fingerprint: d9e9bdf44ecf6f707091c8c7cfd5857aca7be0ba2e13da8e989c80cce2921c50
+  sha1: sha256:f7020f5cd21f6cf635d355137a59843e6c1d84d6d5f1bf7cc9d227dae882cfb7
+  dependencies: []
+- name: golang-1-linux
+  version: 5ce8b4ef50b04888fe815537f3a4f84fa63f3443381c198ae74113235b5bcb6a
+  fingerprint: 5ce8b4ef50b04888fe815537f3a4f84fa63f3443381c198ae74113235b5bcb6a
+  sha1: sha256:4cf62bf87a1f11ff2554316640653e90efcd75a7d40e827a61ee8dd2b927a569
+  dependencies: []
+- name: python-2.7
+  version: 459c27970b0957c4b9d8c885cedcfc1bfa5394fe7a19199ec294c1376cb2f455
+  fingerprint: 459c27970b0957c4b9d8c885cedcfc1bfa5394fe7a19199ec294c1376cb2f455
+  sha1: sha256:9764d3ef2f32c8edc9f6a2a764a68c3a2a07ea92043a76b2094924c79ad2274a
+  dependencies: []
