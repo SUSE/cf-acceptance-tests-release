@@ -109,6 +109,10 @@ else
     echo "Ruby not available, using limited group checking"
 fi
 
+for plugin in /var/vcap/packages/cf-cli*-linux/bin/*cf-plugin-linux-* ; do
+    cf install-plugin -f "${plugin}"
+done
+
 export GOFLAGS=-mod=vendor
 cd /var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry/cf-acceptance-tests || exit 1
 exec bin/test -v
