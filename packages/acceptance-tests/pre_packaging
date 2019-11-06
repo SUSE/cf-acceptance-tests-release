@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# This pre_packaging script is required to do the `go mod vendor` while we have
+# internet access; unfortunately, this means we run it on the developer
+# workstation (or, as the case may be, CI).
+
+set -o errexit -o nounset
+
+export GOPATH="${BUILD_DIR}"
+export GOCACHE="${BUILD_DIR}/.go-cache"
+
+export LANG=C # avoid issues with bzr
+
+cd "${BUILD_DIR}/github.com/cloudfoundry/cf-acceptance-tests/vendor/github.com/onsi/ginkgo/ginkgo"
+go mod vendor -v
+
+rm -rf "${GOCACHE:?}"
+# Ensure we can delete the directories
+find "${BUILD_DIR:?}/pkg" -type d -a -not -writable -a -execdir chmod u+w '{}' ';'
+rm -rf "${BUILD_DIR:?}/pkg"
