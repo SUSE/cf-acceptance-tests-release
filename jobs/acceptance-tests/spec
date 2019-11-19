@@ -250,5 +250,10 @@ properties:
       Sets the ginkgo --flakeAttempts flag.
     default: 3
 
+  acceptance_tests.ginkgo.slow_spec_threshold:
+    description: >-
+      Sets the ginkgo --slowSpecThreshold flag.
+    default: 120
+
   bpm.enabled:
     default: true
