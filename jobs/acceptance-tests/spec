@@ -240,5 +240,10 @@ properties:
        The JSON configuration that is used when volume service is bound to the
        test application.
 
+  acceptance_tests.ginkgo.noisy_skippings:
+    description: >-
+      Sets the ginkgo --noisySkippings flag.
+    default: false
+
   bpm.enabled:
     default: true
