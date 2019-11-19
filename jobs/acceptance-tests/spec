@@ -245,5 +245,10 @@ properties:
       Sets the ginkgo --noisySkippings flag.
     default: false
 
+  acceptance_tests.ginkgo.flake_attempts:
+    description: >-
+      Sets the ginkgo --flakeAttempts flag.
+    default: 3
+
   bpm.enabled:
     default: true
