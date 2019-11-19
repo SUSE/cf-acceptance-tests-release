@@ -240,5 +240,20 @@ properties:
        The JSON configuration that is used when volume service is bound to the
        test application.
 
+  acceptance_tests.ginkgo.noisy_skippings:
+    description: >-
+      Sets the ginkgo --noisySkippings flag.
+    default: false
+
+  acceptance_tests.ginkgo.flake_attempts:
+    description: >-
+      Sets the ginkgo --flakeAttempts flag.
+    default: 3
+
+  acceptance_tests.ginkgo.slow_spec_threshold:
+    description: >-
+      Sets the ginkgo --slowSpecThreshold flag.
+    default: 120
+
   bpm.enabled:
     default: true
