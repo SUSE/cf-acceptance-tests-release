@@ -1,0 +1,35 @@
+name: cf-acceptance-tests
+version: 0.0.5
+commit_hash: eca1c6f
+uncommitted_changes: false
+jobs:
+- name: acceptance-tests
+  version: ef427681d8dde93d1e6c5988491fbbae6d041e93f50a11999b589713e450df75
+  fingerprint: ef427681d8dde93d1e6c5988491fbbae6d041e93f50a11999b589713e450df75
+  sha1: sha256:89381beb4845c059f68f4a4417bb7e32641c7bbe2e0a42128755661507e8a9c3
+  packages:
+  - acceptance-tests
+  - git
+  - golang-1-linux
+  - cf-cli-6-linux
+packages:
+- name: acceptance-tests
+  version: 49f69cc94e35345fdd64bab8e1b0fe3421da371d17fb1e0cfb8402ea913455fe
+  fingerprint: 49f69cc94e35345fdd64bab8e1b0fe3421da371d17fb1e0cfb8402ea913455fe
+  sha1: sha256:6039af71f2097c955dcb75c5e48b416e11fe0c315eb1738c6f7b69bf348086ba
+  dependencies: []
+- name: cf-cli-6-linux
+  version: f6aa65b8e5017592ffa4f7b10f1bdb9de95fa557ed6110badcf1650f6077ac66
+  fingerprint: f6aa65b8e5017592ffa4f7b10f1bdb9de95fa557ed6110badcf1650f6077ac66
+  sha1: sha256:3cb3bcf118a270422a23bc6355680aae119a710451346c8bf447c5c1b3553000
+  dependencies: []
+- name: git
+  version: d9e9bdf44ecf6f707091c8c7cfd5857aca7be0ba2e13da8e989c80cce2921c50
+  fingerprint: d9e9bdf44ecf6f707091c8c7cfd5857aca7be0ba2e13da8e989c80cce2921c50
+  sha1: sha256:f7020f5cd21f6cf635d355137a59843e6c1d84d6d5f1bf7cc9d227dae882cfb7
+  dependencies: []
+- name: golang-1-linux
+  version: 5ce8b4ef50b04888fe815537f3a4f84fa63f3443381c198ae74113235b5bcb6a
+  fingerprint: 5ce8b4ef50b04888fe815537f3a4f84fa63f3443381c198ae74113235b5bcb6a
+  sha1: sha256:4cf62bf87a1f11ff2554316640653e90efcd75a7d40e827a61ee8dd2b927a569
+  dependencies: []
