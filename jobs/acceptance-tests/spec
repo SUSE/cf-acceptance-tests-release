@@ -260,5 +260,9 @@ properties:
       Sets the ginkgo --slowSpecThreshold flag.
     default: 120
 
+  acceptance_tests.ginkgo.extra_flags:
+    description: >-
+      Appends the value to the ginkgo command. Useful to pass arbitrary ginkgo flags.
+
   bpm.enabled:
     default: true

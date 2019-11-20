@@ -115,7 +115,7 @@ done
 
 export GOFLAGS=-mod=vendor
 cd /var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry/cf-acceptance-tests || exit 1
-exec bin/test "${@}" \
+exec bin/test "${@}" <% if_p('acceptance_tests.ginkgo.extra_flags') { |f| puts(f) } %> \
   -p <% if_p('acceptance_tests.ginkgo.nodes') { |n| puts("--nodes=#{n}") } %> \
   --noisySkippings=<%= p('acceptance_tests.ginkgo.noisy_skippings') %> \
   --flakeAttempts=<%= p('acceptance_tests.ginkgo.flake_attempts') %> \
