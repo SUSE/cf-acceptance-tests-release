@@ -125,6 +125,9 @@ if_p('acceptance_tests.ginkgo.nodes') do |n|
 end
 %>
 
+export GOFLAGS=-mod=vendor
+cd /var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry/cf-acceptance-tests || exit 1
+
 exec bin/test \
   <%= extra_flags %> \
   -p <%= nodes %> \
