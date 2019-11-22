@@ -11,7 +11,7 @@ export GOCACHE="${BUILD_DIR}/.go-cache"
 
 export LANG=C # avoid issues with bzr
 
-cd "${BUILD_DIR}/github.com/cloudfoundry/cf-acceptance-tests/vendor/github.com/onsi/ginkgo/ginkgo"
+cd "${BUILD_DIR}/github.com/cloudfoundry/cf-acceptance-tests/"
 go mod vendor -v
 
 rm -rf "${GOCACHE:?}"
