@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
-set -o errexit
+set -o errexit -o nounset
 
 cp -rv "${BOSH_COMPILE_TARGET}" "${BOSH_INSTALL_TARGET}/src"
+REPO_DIR=${BOSH_INSTALL_TARGET}/src/github.com/cloudfoundry/cf-acceptance-tests
+
+export GOPATH=${BOSH_INSTALL_TARGET}
+GOROOT=$(readlink -nf /var/vcap/packages/golang-1-linux)
+export GOROOT
+export GOCACHE=/var/vcap/data/golang-1-linux/cache
+
+export PATH=$GOROOT/bin:$PATH
+export PATH=${GOPATH}/bin:${PATH}
+
+cd ${BOSH_INSTALL_TARGET}/src
+
+go install github.com/cloudfoundry/cf-acceptance-tests/vendor/github.com/onsi/ginkgo/ginkgo
+ginkgo build -r github.com/cloudfoundry/cf-acceptance-tests
