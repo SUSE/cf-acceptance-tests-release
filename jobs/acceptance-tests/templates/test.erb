@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+<% require 'shellwords' %>
+
 source /var/vcap/packages/golang-1-linux/bosh/runtime.env
 
 set -o errexit
@@ -128,7 +130,38 @@ end
 export GOFLAGS=-mod=vendor
 cd /var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry/cf-acceptance-tests || exit 1
 
-exec bin/test \
+# Set up an additional security group to ensure that we can reach the API
+# endpoint from containers; this is necessary as some route_services tests will
+# attempt to reach the external route.
+(
+    <% skip_ssl_validation = p('acceptance_tests.skip_ssl_validation') ? '--skip-ssl-validation' : '' %>
+    cf api <%= skip_ssl_validation %> <%= p('acceptance_tests.api').shellescape %>
+    set +o xtrace
+    export CF_PASSWORD=<%= p('acceptance_tests.admin_password').shellescape %>
+    set -o xtrace
+    cf auth <%= p('acceptance_tests.admin_user').shellescape %>
+)
+
+loopback_secgroup="loopback-secgroup-$(date +%s)"
+cf create-security-group "${loopback_secgroup}" /dev/stdin <<EOF
+[
+    {
+        "protocol": "all",
+        "destination": "$(getent hosts <%= p('acceptance_tests.apps_domain').shellescape %> | awk '{ print $1 }')",
+        "description": "Allow traffic to external routes"
+    }
+]
+EOF
+cf bind-staging-security-group "${loopback_secgroup}"
+cf bind-running-security-group "${loopback_secgroup}"
+cleanup() {
+    cf unbind-staging-security-group "${loopback_secgroup}"
+    cf unbind-running-security-group "${loopback_secgroup}"
+    cf delete-security-group -f "${loopback_secgroup}"
+}
+trap cleanup EXIT
+
+bin/test \
   <%= extra_flags %> \
   -p <%= nodes %> \
   --noisySkippings=<%= p('acceptance_tests.ginkgo.noisy_skippings') %> \
