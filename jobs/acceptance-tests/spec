@@ -250,6 +250,11 @@ properties:
       Sets the ginkgo --noisySkippings flag.
     default: false
 
+  acceptance_tests.ginkgo.noisy_pendings:
+    description: >-
+      Sets the ginkgo --noisyPendings flag.
+    default: false
+
   acceptance_tests.ginkgo.flake_attempts:
     description: >-
       Sets the ginkgo --flakeAttempts flag.
