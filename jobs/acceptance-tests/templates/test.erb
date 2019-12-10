@@ -165,6 +165,7 @@ bin/test \
   <%= extra_flags %> \
   -p <%= nodes %> \
   --noisySkippings=<%= p('acceptance_tests.ginkgo.noisy_skippings') %> \
+  --noisyPendings=<%= p('acceptance_tests.ginkgo.noisy_pendings') %> \
   --flakeAttempts=<%= p('acceptance_tests.ginkgo.flake_attempts') %> \
   --slowSpecThreshold=<%= p('acceptance_tests.ginkgo.slow_spec_threshold') %> \
   cf-acceptance-tests.test
