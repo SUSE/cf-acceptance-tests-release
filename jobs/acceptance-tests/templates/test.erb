@@ -143,15 +143,10 @@ cd /var/vcap/packages/acceptance-tests/src/github.com/cloudfoundry/cf-acceptance
 )
 
 loopback_secgroup="loopback-secgroup-$(date +%s)"
-cf create-security-group "${loopback_secgroup}" /dev/stdin <<EOF
-[
-    {
-        "protocol": "all",
-        "destination": "$(getent hosts <%= p('acceptance_tests.apps_domain').shellescape %> | awk '{ print $1 }')",
-        "description": "Allow traffic to external routes"
-    }
-]
-EOF
+getent hosts <%= p('acceptance_tests.apps_domain').shellescape %> \
+  | awk '{ print $1 }' \
+  | jq --raw-input --slurp 'split("\n") | map(select(. != "")) | map({ "protocol": "all", "description": "Allow traffic via gorouter", "destination": . })' \
+  | cf create-security-group "${loopback_secgroup}" /dev/stdin
 cf bind-staging-security-group "${loopback_secgroup}"
 cf bind-running-security-group "${loopback_secgroup}"
 cleanup() {
