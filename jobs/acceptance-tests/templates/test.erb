@@ -150,9 +150,11 @@ getent hosts <%= p('acceptance_tests.apps_domain').shellescape %> \
 cf bind-staging-security-group "${loopback_secgroup}"
 cf bind-running-security-group "${loopback_secgroup}"
 cleanup() {
+    rv=$?
     cf unbind-staging-security-group "${loopback_secgroup}"
     cf unbind-running-security-group "${loopback_secgroup}"
     cf delete-security-group -f "${loopback_secgroup}"
+    exit $rv
 }
 trap cleanup EXIT
 
