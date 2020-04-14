@@ -157,7 +157,7 @@ cleanup_sec_groups() {
 
 <%
 docker_enabled = if_p('acceptance_tests.include') do |include|
-  include.match(%r{(\+|\=)docker})
+  include.match(%r{(\+|\=)[a-z0-9,_]*docker})
 end
 %>
 
