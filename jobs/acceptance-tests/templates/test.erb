@@ -149,11 +149,28 @@ getent hosts <%= p('acceptance_tests.apps_domain').shellescape %> \
   | cf create-security-group "${loopback_secgroup}" /dev/stdin
 cf bind-staging-security-group "${loopback_secgroup}"
 cf bind-running-security-group "${loopback_secgroup}"
-cleanup() {
-    rv=$?
+cleanup_sec_groups() {
     cf unbind-staging-security-group "${loopback_secgroup}"
     cf unbind-running-security-group "${loopback_secgroup}"
     cf delete-security-group -f "${loopback_secgroup}"
+}
+
+<%
+docker_enabled = if_p('acceptance_tests.include') do |include|
+  include.match(%r{(\+|\=)docker})
+end
+%>
+
+<%= 'cf enable-feature-flag diego_docker' if docker_enabled %>
+
+cleanup_docker_feature() {
+    <%= 'cf disable-feature-flag diego_docker' if docker_enabled %>
+}
+
+cleanup() {
+    rv=$?
+    cleanup_sec_groups
+    cleanup_docker_feature
     exit $rv
 }
 trap cleanup EXIT
