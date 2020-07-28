@@ -2,7 +2,7 @@
 
 set -exu
 
-tar xzf cf-cli-6-linux/cf-cli_6.*_linux_x86-64.tgz
+tar xzf cf-cli-7-linux/cf7-cli_7.*_linux_x86-64.tgz
 
 mkdir ${BOSH_INSTALL_TARGET}/bin
 cp ./cf log-cache-cf-plugin-linux/log-cache-cf-plugin-linux-* ${BOSH_INSTALL_TARGET}/bin/

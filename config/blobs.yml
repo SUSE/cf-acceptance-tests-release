@@ -2,10 +2,10 @@ git/git-2.21.0.tar.gz:
   size: 8293180
   object_id: git/git-2.21.0.tar.gz
   sha: sha256:7a601275abcc6ff51cc79a6d402e83c90ae37d743b0b8d073aa009dd4b22d432
-cf-cli-6-linux/cf-cli_6.46.1_linux_x86-64.tgz:
-  size: 8025041
-  object_id: cf-cli-6-linux/cf-cli_6.46.1_linux_x86-64.tgz
-  sha: sha256:17a54a359d23b32b791fc7c32cc72af32cff3b515866eada03a1a8b984446722
+cf-cli-7-linux/cf7-cli_7.0.1_linux_x86-64.tgz:
+  size: 9118233
+  object_id: cf-cli-7-linux/cf7-cli_7.0.1_linux_x86-64.tgz
+  sha: sha256:7f23be34b55c8b6c47ea18b41dd1fbf8b5d23ba3ac219bbc08bd80d782a8d497
 golang-1-linux/go1.12.9.linux-amd64.tar.gz:
   size: 127961523
   object_id: golang-1-linux/go1.12.9.linux-amd64.tar.gz
