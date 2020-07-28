@@ -16,7 +16,7 @@ packages:
 - acceptance-tests
 - git
 - golang-1-linux
-- cf-cli-6-linux
+- cf-cli-7-linux
 
 # Note that we comment out the default values, so that the CATS-internal
 # defaults will get applied instead.
